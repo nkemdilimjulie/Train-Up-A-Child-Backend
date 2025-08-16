@@ -8,7 +8,7 @@
 
 
 
-![Train-Up-A-Child Backend Structure](diagrams/project-structure.png)
+![Train-Up-A-Child Backend Structure](diagrams/Project-Structure_page-0001.jpg)
 
 # NEXT
 
@@ -17,6 +17,8 @@ o sponsor
 o children
 o account
 o guest
+o donations
+o documentation
 
 app children shall have registered children and verified children sub-apps
 app account shall have income account and expenses account sub-apps
@@ -25,3 +27,6 @@ The database should run on PostgreSQL DB.
 HELP
 
 Would you like me to also help you generate the base Django project and apps with the correct structure (including sub-apps like registered_children)? I can walk you through it or provide the exact commands and folder setup. You're building something meaningful—let’s get it right from the foundation! 💪✨
+
+# Project NEXT STEP
+>see developer_next_step.md
