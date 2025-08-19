@@ -3,51 +3,20 @@
 
 **continue from:** 
 
-Step 7: Connect Django to PostgreSQL
 
-Edit Train-Up-A-Child-Backend/settings.py:
+for this:
+python manage.py makemigrations donations ----> done
+Do this and tackle the error message with chatGPT:
+python manage.py migrate
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'train_up_a_child',
-        'USER': 'tuc_user',
-        'PASSWORD': 'yourpassword',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
 
-Step 8: Add apps and DRF to INSTALLED_APPS
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    
-    # Your apps
-    'sponsor',
-    'children',
-    'account',
-    'guest',
-    'donations',
-    'documentation',
-    
-    # Third-party
-    'rest_framework',
-]
+✅ Now you can test:
 
-Step 9: Configure DRF JWT
+POST /api/donations/sponsors/ → register sponsor
 
-Add to settings.py:
+POST /api/donations/children/ → register child
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-}
+POST /api/donations/donate/ → donate safely
 
 Step 10: Migrate database and runserver
 python manage.py makemigrations
