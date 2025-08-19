@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'children',
     'account',
     'guest',
+    'donations',
+    'documentation',
     
     # Third-party
     'rest_framework',
