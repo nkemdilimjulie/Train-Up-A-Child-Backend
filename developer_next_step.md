@@ -18,23 +18,33 @@ POST /api/donations/children/ → register child
 
 POST /api/donations/donate/ → donate safely
 
-Step 10: Migrate database and runserver
+# Corrections / Errors
+After tackling errors of the present level of the project:
+(Use chatGPT - 👉 Would you like me to expand the Children app with extra features like age, school info, and photo uploads (so sponsors can see a richer child profile), yes please.)
+🚀 Features of Children App
+•	Create & List children (POST + GET)
+•	Stores:
+o	first_name, last_name
+o	Optional story
+o	Running balance (auto-updated by donations)
+o	registered_at timestamp
+•	** Extensible: Later, you can add:**
+o	age, school, health_info, photos
+o	Reports per child (education progress, needs)
+
+
+8. Run Migrations
+
+Now, let’s create and apply migrations to set up the database schema:
+
+# Make migrations for your models
 python manage.py makemigrations
+
+# Apply migrations to the database
 python manage.py migrate
-python manage.py createsuperuser  # Follow prompts for admin
+
+9. Run the Server
+
+Finally, run the server to make sure everything is working:
+
 python manage.py runserver
-
-
-Your backend should now be running at http://127.0.0.1:8000
-
-✅ Next Steps
-
-Start creating models for children, sponsor, account, and guest.
-
-Add serializers, views, and URLs for DRF endpoints.
-
-Add JWT login, registration, and permissions.
-
-If you want, I can draw up a complete folder and file structure for your backend, including models for all apps and sub-apps, ready to plug into PostgreSQL and DRF. This will match your frontend plan exactly.
-
-Do you want me to do that next?

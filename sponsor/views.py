@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import generics
+from .models import SponsorProfile
+from .serializers import SponsorProfileSerializer
 
-# Create your views here.
+class SponsorProfileListCreateView(generics.ListCreateAPIView):
+    queryset = SponsorProfile.objects.all()
+    serializer_class = SponsorProfileSerializer
+    # permission_classes = []  # Adjust permissions as needed

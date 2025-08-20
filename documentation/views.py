@@ -1,3 +1,15 @@
-from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-# Create your views here.
+class APIDocumentationView(APIView):
+    def get(self, request):
+        return Response({
+            "message": "Welcome to Train-Up-A-Child API",
+            "endpoints": {
+                "sponsors": "/api/sponsors/",
+                "children": "/api/children/",
+                "donations": "/api/donate/",
+                "users": "/api/users/",
+            }
+        })
+

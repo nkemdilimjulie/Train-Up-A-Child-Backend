@@ -31,3 +31,4 @@ class DonationCreateView(generics.CreateAPIView):
         serializer = self.get_serializer(donation)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    

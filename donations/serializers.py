@@ -14,6 +14,10 @@ class ChildSerializer(serializers.ModelSerializer):
     class Meta:
         model = Child
         fields = "__all__"
+        extra_kwargs = {
+            "story": {"required": False},   # ✅ optional in API
+        }
+
 
 
 class DonationSerializer(serializers.ModelSerializer):

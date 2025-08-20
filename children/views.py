@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import generics
+from .models import Child
+from .serializers import ChildSerializer
 
-# Create your views here.
+class ChildListCreateView(generics.ListCreateAPIView):
+    queryset = Child.objects.all()
+    serializer_class = ChildSerializer
+

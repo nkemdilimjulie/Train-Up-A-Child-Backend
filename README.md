@@ -9,7 +9,7 @@
 
 
 ![Train-Up-A-Child Backend Structure](diagrams/Project-Structure_page-0001.jpg)
-
+![Train-Up-A-Child Backend Structure](diagrams/Project-Structure_page-0002.jpg)
 # NEXT
 
 I want to create a Django backend for my project. Project name: Train-Up-A-Child-Backend. The apps are 
