@@ -1,26 +1,22 @@
 # Serializers convert models ↔ JSON (for DRF APIs).
-
 from rest_framework import serializers
-from .models import Sponsor, Child, Donation
-
-
-class SponsorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Sponsor
-        fields = "__all__"
-
-
-class ChildSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Child
-        fields = "__all__"
-        extra_kwargs = {
-            "story": {"required": False},   # ✅ optional in API
-        }
-
-
+from .models import Donation
+from sponsor.serializers import SponsorProfileSerializer
+from children.serializers import ChildSerializer
+from sponsor.models import SponsorProfile
+from children.models import Child
 
 class DonationSerializer(serializers.ModelSerializer):
+    sponsor = SponsorProfileSerializer(read_only=True)
+    child = ChildSerializer(read_only=True)
+
+    sponsor_id = serializers.PrimaryKeyRelatedField(
+        queryset=SponsorProfile.objects.all(), write_only=True, source="sponsor"
+    )
+    child_id = serializers.PrimaryKeyRelatedField(
+        queryset=Child.objects.all(), write_only=True, source="child"
+    )
+
     class Meta:
         model = Donation
-        fields = "__all__"
+        fields = ["id", "sponsor", "child", "sponsor_id", "child_id", "amount", "donated_at"]

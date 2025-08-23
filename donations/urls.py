@@ -1,8 +1,7 @@
 from django.urls import path
-from .views import SponsorListCreateView, ChildListCreateView, DonationCreateView
+from .views import DonationCreateView, DonationListView
 
 urlpatterns = [
-    path("sponsors/", SponsorListCreateView.as_view(), name="sponsor-list"),
-    path("children/", ChildListCreateView.as_view(), name="child-list"),
     path("donate/", DonationCreateView.as_view(), name="donation-create"),
+    path("donations/", DonationListView.as_view(), name="donation-list"),
 ]

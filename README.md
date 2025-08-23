@@ -2,9 +2,8 @@
 
 
  > We are a charity Organisation specialized in the area and vision to
-                help poor children across the continent who have no one to sponsor
-                their education. We get volunteers who wish to sponsor such children
-                in their educational careers
+help poor children across the continent who have no one to sponsor
+their education. We connect volunteers who wish to sponsor such children in their educational careers
 
 
 
