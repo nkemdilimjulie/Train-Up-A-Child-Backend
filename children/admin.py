@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Child
+from .models import ChildProfile
 
-@admin.register(Child)
+@admin.register(ChildProfile)
 class ChildAdmin(admin.ModelAdmin):
-    list_display = ("id", "first_name", "last_name", "age", "class_name", "date_registered")
-    search_fields = ("first_name", "last_name", "guardian_name")
+    list_display = ("id", "user", "age", "class_name", "guardian_name", "date_registered")
+    search_fields = ("user__username", "guardian_name")

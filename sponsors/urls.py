@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import sponsor_by_username
+from .views import create_sponsor_profile
 
 urlpatterns = [
-    path("by-username/<str:username>/", sponsor_by_username, name="sponsor-by-username"),
+    path("", create_sponsor_profile, name="create_sponsor_profile"),
 ]

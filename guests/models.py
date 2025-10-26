@@ -3,6 +3,11 @@ from django.conf import settings
 
 class GuestProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    # any guest-specific fields can go here
+    first_name = models.CharField(max_length=120, blank=True, null=True)
+    last_name = models.CharField(max_length=120, blank=True, null=True)
+    email = models.EmailField(max_length=255, blank=True, null=True)
+
+    
+    
     def __str__(self):
         return f"Guest: {self.user.username}"

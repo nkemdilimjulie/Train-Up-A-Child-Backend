@@ -31,12 +31,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     # "http://127.0.0.1:3000",
     # "http://localhost:8000",
-    # "http://trainupachild.org",
-    # "https://trainupachild.org",
-    # "https://www.trainupachild.org",
-    # "https://admin.trainupachild.org",
-    # "https://trainupachild-backend.onrender.com",
-    
 
 ]
 
@@ -44,19 +38,6 @@ CORS_ALLOWED_ORIGINS = [
 # CORS_ALLOW_CREDENTIALS = True --> use during production if you need to send cookies or auth headers
 
 # Application definition
-
-# INSTALLED_APPS = [
-#     'django.contrib.admin',
-#     'django.contrib.auth',
-#     'django.contrib.contenttypes',
-#     'django.contrib.sessions',
-#     'django.contrib.messages',
-#     'django.contrib.staticfiles',
-#     'rest_framework.authtoken',
-#     'corsheaders',
-# ]
-
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

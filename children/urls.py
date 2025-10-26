@@ -1,10 +1,10 @@
 # children/urls.py
-from rest_framework.routers import DefaultRouter
-from .views import ChildViewSet
 
-router = DefaultRouter()
-router.register(r"", ChildViewSet, basename="child")
+from django.urls import path
+from .views import create_child_profile
+from .views import list_children
 
-urlpatterns = router.urls
-
-
+urlpatterns = [
+    path("create/", create_child_profile, name="create_child_profile"),
+    path("list/", list_children, name="list_children"),
+]

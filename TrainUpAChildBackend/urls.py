@@ -11,8 +11,6 @@ urlpatterns = [
     path("api/sponsors/", include("sponsors.urls")),
     path("api/children/", include("children.urls")),
     path("api/donations/", include("donations.urls")),
-    path("api/guest-view-children/", include("guests.urls")),
+    path("api/guests/", include("guests.urls")),
     
-    # Stripe webhook endpoint for handling payment events
-    path("webhook/", views.stripe_webhook, name="stripe-webhook"), # root-level webhook
 ]   
