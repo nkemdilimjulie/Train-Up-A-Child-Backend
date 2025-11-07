@@ -9,13 +9,26 @@ class ChildProfileSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source="user.first_name", read_only=True)
     last_name = serializers.CharField(source="user.last_name", read_only=True)
     email = serializers.EmailField(source="user.email", read_only=True)
+    photo = serializers.ImageField(required=False, allow_null=True) # ✅ let DRF handle image URLs
 
     class Meta:
         model = ChildProfile
-        fields = [
-            "username", "first_name", "last_name", "email",
-            "age", "class_name", "guardian_name", "guardian_phone", "guardian_email", "story"
-        ]
+        fields = "__all__"
+
+    # def get_photo(self, obj):
+    #     request = self.context.get("request")
+    #     if obj.photo:
+    #         photo_url = obj.photo.url
+    #     else:
+    #         photo_url = "/media/children/photos/default.jpg"
+
+    #     if request:
+    #         if photo_url.startswith("/media/"):
+    #             return request.build_absolute_uri(photo_url)
+    #         else:
+    #             return photo_url
+    #     return photo_url
+
 
     def create(self, validated_data):
         username = validated_data.pop("username")
@@ -24,7 +37,9 @@ class ChildProfileSerializer(serializers.ModelSerializer):
         except User.DoesNotExist:
             raise serializers.ValidationError({"username": "User not found."})
 
-        profile, created = ChildProfile.objects.get_or_create(user=user, defaults=validated_data)
-        if not created:
+        if ChildProfile.objects.filter(user=user).exists():
             raise serializers.ValidationError({"detail": "Child profile already exists."})
+
+        # ✅ Create new child profile (this properly handles uploaded files)
+        profile = ChildProfile.objects.create(user=user, **validated_data)
         return profile

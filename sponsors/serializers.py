@@ -39,8 +39,4 @@ class SponsorProfileSerializer(serializers.ModelSerializer):
         total = Donation.objects.filter(sponsor=obj).aggregate(total_amount=Sum('amount'))['total_amount']
         return total or 0
    
-    # def get_total_donated(self, obj):
-    #     donations = Donation.objects.filter(sponsor=obj)
-    #     total = donations.aggregate(total_amount=serializers.DecimalField(max_digits=10, decimal_places=2)) if donations.exists() else 0
-    #     return sum(d.amount for d in donations)
     

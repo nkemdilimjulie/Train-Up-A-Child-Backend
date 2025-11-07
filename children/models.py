@@ -18,9 +18,12 @@ class ChildProfile(models.Model):
     guardian_email = models.EmailField(default="unknown@example.com")
     story = models.TextField(default="")
     date_registered = models.DateField(auto_now_add=True)
+    photo = models.ImageField(upload_to="children/photos/", blank=True, null=True, default="children/photos/default.jpg")
 
     def __str__(self):
         username = self.user.username if self.user else "NoUser"
         first_name = self.user.first_name if self.user else ""
         last_name = self.user.last_name if self.user else ""
-        return f"Child: {username} - {first_name} {last_name}"
+        return f"Child: {username} - {first_name} {last_name}".strip()
+
+    
