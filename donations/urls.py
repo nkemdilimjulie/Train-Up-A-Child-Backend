@@ -2,6 +2,7 @@
 # donations/urls.py
 from django.urls import path
 from . import views
+from .views import SponsorDonationListView
 
 urlpatterns = [
     # Anonymous donation (no login required)
@@ -12,4 +13,6 @@ urlpatterns = [
 
     # Get all donations by a specific user (for dashboard)
     path("user/<str:username>/", views.get_donations_by_user, name="get_donations_by_user"),
+    
+    path("", SponsorDonationListView.as_view()),
 ]

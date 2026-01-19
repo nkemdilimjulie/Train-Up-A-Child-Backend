@@ -86,3 +86,5 @@ Python Backend Developer
 
 
 ---
+## NEXT STEP
++ chatGPT: Turning AI into expert --> 4 — Backend endpoint (Django view, caching + DB logic)
