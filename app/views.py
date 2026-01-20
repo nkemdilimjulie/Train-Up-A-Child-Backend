@@ -4,11 +4,12 @@
 API endpoint for translating an FAQ via OpenAI.
 
 FLOW:
-Frontend → Backend → OpenAI → Backend → Frontend
+Frontend → Backend → Database → OpenAI (if needed) → Database → Frontend
 
 NOTE:
-- Does NOT save translations yet
-- Only returns translated text
+- Uses stored FAQs
+- Saves translations automatically
+- Avoids repeated OpenAI calls
 """
 
 from rest_framework.decorators import api_view, permission_classes
@@ -16,46 +17,61 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
-from app.services.translation import translate_faq_with_openai
+from app.models import FAQ
+from app.services.faq_translation_service import get_or_create_faq_translation
 
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def translate_faq(request):
     """
-    Translate an FAQ question + answer into a selected language.
+    Translate an existing FAQ into a selected language.
 
     Expected payload:
     {
-        "question": "...",
-        "answer": "...",
-        "language": "German"
+        "faq_id": 1,
+        "language": "de"
     }
     """
-    question = request.data.get("question")
-    answer = request.data.get("answer")
-    language = request.data.get("language", "German")
 
-    if not question or not answer:
+    faq_id = request.data.get("faq_id")
+    language = request.data.get("language", "de")
+
+    if not faq_id:
         return Response(
-            {"error": "Both question and answer are required."},
+            {"error": "faq_id is required."},
             status=status.HTTP_400_BAD_REQUEST
         )
 
     try:
-        translated_q, translated_a = translate_faq_with_openai(
-            question=question,
-            answer=answer,
-            target_lang=language
+        faq = FAQ.objects.get(id=faq_id)
+    except FAQ.DoesNotExist:
+        return Response(
+            {"error": "FAQ not found."},
+            status=status.HTTP_404_NOT_FOUND
         )
 
-        return Response({
-            "question": translated_q,
-            "answer": translated_a
-        })
+    try:
+        translation = get_or_create_faq_translation(
+            faq=faq,
+            language_code=language
+        )
+
+        return Response(
+            {
+                "faq_id": faq.id,
+                "language": translation.language_code,
+                "question": translation.question_translated,
+                "answer": translation.answer_translated,
+            },
+            status=status.HTTP_200_OK
+        )
 
     except Exception as e:
         return Response(
-            {"error": "Translation failed", "details": str(e)},
+            {
+                "error": "Translation failed.",
+                "details": str(e)
+            },
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
