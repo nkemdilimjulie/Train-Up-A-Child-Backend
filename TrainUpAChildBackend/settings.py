@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "documentation",
     "contact",
     "app",
+    "faq",
 
     # Third-party
     "rest_framework",

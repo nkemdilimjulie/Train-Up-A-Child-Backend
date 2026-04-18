@@ -5,7 +5,6 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
-from django.db import transaction
 import stripe
 from .models import Donation
 from .serializers import DonationSerializer
@@ -41,14 +40,14 @@ def create_checkout_session(request):
             mode="payment",
             success_url="http://localhost:3000/donate/success",
             cancel_url="http://localhost:3000/donate/cancel",
+            
+            # ✅ METADATA (optional for anonymous)
+            metadata={
+                "amount": str(amount)
+            }
         )
 
-        # Save donation without linking to user/sponsor
-        Donation.objects.create(
-            amount=amount,
-            stripe_payment_intent=checkout_session.payment_intent
-        )
-
+      
         return Response({"url": checkout_session.url})
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -72,8 +71,8 @@ def create_sponsor_checkout_session(request):
         if not sponsor_profile:
             return Response({"error": "Sponsor profile not found for this user."}, status=status.HTTP_404_NOT_FOUND)
 
-        with transaction.atomic():
-            checkout_session = stripe.checkout.Session.create(
+        
+        checkout_session = stripe.checkout.Session.create(
                 payment_method_types=["card"],
                 line_items=[{
                     "price_data": {
@@ -86,20 +85,24 @@ def create_sponsor_checkout_session(request):
                 mode="payment",
                 success_url="http://localhost:3000/donate/success",
                 cancel_url="http://localhost:3000/donate/cancel",
-            )
+                
+                # ✅ CRITICAL METADATA
+                metadata={
+                    "user_id": str(request.user.id),
+                    "sponsor_id": str(sponsor_profile.id),
+                    "amount": str(amount)
+                }
+        )
 
-            Donation.objects.create(
-                user=request.user,
-                sponsor=sponsor_profile,
-                amount=amount,
-                stripe_payment_intent=checkout_session.payment_intent,
-            )
 
         return Response({"url": checkout_session.url})
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+# -------------------------------------------
+# 3️⃣ Get donations by username
+# -------------------------------------------
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def get_donations_by_user(request, username):
@@ -110,6 +113,10 @@ def get_donations_by_user(request, username):
     serializer = DonationSerializer(donations, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+# -------------------------------------------
+# 4️⃣ Sponsor donation list
+# -------------------------------------------
 class SponsorDonationListView(APIView):
     permission_classes = [IsAuthenticated]
 

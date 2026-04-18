@@ -84,7 +84,62 @@ Python Backend Developer
 
 🌐 [LinkedIn / Portfolio Link]
 
+# In Development Stage:
+Because of Stripe Payment, **RUN** the code in three terminals or use frontend to test:
 
+1) Start Backend code using **python manage.py runserver** and let it run
+2) Start Stripe CLI using **stripe listen --forward-to localhost:8000/api/donations/webhook/**
+3) Test Stripe payment using **stripe trigger checkout.session.completed**
+
+> Then check python/backend terminal, no. 1 above, for EXPECTED RESULT
+
+You should now see:
+
+✔ no server crash
+✔ webhook 200 OK
+✔ Donation created in DB
+✔ correct amount stored
+
+Or, use frontend:
+Do this:
+
+Open your frontend
+Enter amount
+Click donate
+Complete Stripe checkout (test card)
+---
+      As of today (18.04.2026)
+🎉 BIG milestone (don’t underestimate this)
+
+You now have:
+
+✔ Real Stripe Checkout
+✔ Secure webhook handling
+✔ No fake donations
+✔ No crashes
+✔ Backend ready for real payments
+
+👉 This is already production-level payment architecture
+
+⚠️ One thing still missing (important)
+
+Right now:
+
+user = None
+sponsor = None
+
+Because:
+
+👉 Stripe test trigger does NOT include metadata
+
+🚀 NEXT UPGRADE (this is the real one)
+
+Now we connect:
+
+👉 your frontend donation → Stripe → webhook → correct user/sponsor
 ---
 ## NEXT STEP
 + chatGPT: Turning AI into expert --> 4 — Backend endpoint (Django view, caching + DB logic)
+
+## AI FAQs - project data
+> see FAQs items in app_faq

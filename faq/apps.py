@@ -1,7 +1,6 @@
-# donations/apps.py
 from django.apps import AppConfig
 
 
-class DonationsConfig(AppConfig):
+class FaqConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'donations'
+    name = 'faq'
