@@ -141,8 +141,16 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.IsAuthenticated", # EVERY endpoint requires login unless explicitly overridden with AllowAny in the views
     ],
+    "DEFAULT_THROTTLE_CLASSES": [ # Protects ALL API endpoints
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "10/minute", # Unauthenticated users (contact form users)
+        "user": "60/minute", # Authenticated users (logged-in users) - higher limit since they are less likely to abuse and we want them to have a smooth experience
+    }
 }
 
 
@@ -222,3 +230,5 @@ DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER)
 import os
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+RECAPTCHA_SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY")
